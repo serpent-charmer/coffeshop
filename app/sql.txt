@@ -1,0 +1,39 @@
+CREATE TABLE IF NOT EXISTS order_base (
+    id       INTEGER,
+    event_id INTEGER,
+    FOREIGN KEY (
+        event_id
+    )
+    REFERENCES event (id) 
+);
+
+CREATE TABLE IF NOT EXISTS event (
+    id          INTEGER PRIMARY KEY,
+    -- Registered, Processing, Done, Canceled, Out
+    event_type  CHAR    CHECK (event_type IN ('R', 'P', 'D', 'C', 'O') ) 
+                        NOT NULL
+                        DEFAULT 'R',
+    employee_id INTEGER,
+    event_date  DATE
+);
+
+CREATE TABLE IF NOT EXISTS event_registered (
+    event_id      INTEGER,
+    client_id     INTEGER,
+    delivery_date DATE,
+    merch_id      INTEGER,
+    merch_price   DOUBLE,
+    FOREIGN KEY (
+        event_id
+    )
+    REFERENCES event (id) 
+);
+
+CREATE TABLE IF NOT EXISTS event_canceled (
+    event_id INTEGER,
+    reason   TEXT,
+    FOREIGN KEY (
+        event_id
+    )
+    REFERENCES event (id) 
+);

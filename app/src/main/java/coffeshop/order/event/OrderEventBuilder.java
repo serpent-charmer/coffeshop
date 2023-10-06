@@ -1,7 +1,5 @@
 package coffeshop.order.event;
 
-import coffeshop.EventType;
-
 import java.sql.Timestamp;
 
 public class OrderEventBuilder {
@@ -37,11 +35,9 @@ public class OrderEventBuilder {
         return event;
     }
 
-
     public OrderEvent out() {
         event.eventType = EventType.Out;
         return event;
     }
-
 
 }

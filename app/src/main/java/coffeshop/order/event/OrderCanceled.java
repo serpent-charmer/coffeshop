@@ -18,7 +18,6 @@ public class OrderCanceled extends OrderEvent {
     @Override
     public int publish() throws OrderIllegalStateException, SQLException {
         int eventId = super.publish();
-
         try (Connection conn = DbUtil.getConnection()) {
             String sql = "INSERT INTO event_canceled " +
                     "(event_id, reason) " +
@@ -30,8 +29,6 @@ public class OrderCanceled extends OrderEvent {
         } catch (SQLException e) {
             throw e;
         }
-
-
         return eventId;
     }
 }

@@ -10,14 +10,13 @@ import java.sql.Statement;
 
 public class DbUtil {
 
-    private static final String DB_URL = "jdbc:sqlite:coffeshop.db";
+    public static String DB_URL = "jdbc:sqlite:coffeshop.db";
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL);
     }
 
-    public static void prepare() {
-
+    public static void prepare() throws SQLException {
         StringBuilder out = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader("sql.txt"))) {
             while (br.ready()) {
@@ -26,14 +25,9 @@ public class DbUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        try(Connection conn = getConnection()) {
+        try (Connection conn = getConnection()) {
             Statement statement = conn.createStatement();
-            System.out.println(out);
             statement.executeUpdate(out.toString());
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
     }
 }

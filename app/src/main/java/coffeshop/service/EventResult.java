@@ -1,6 +1,6 @@
 package coffeshop.service;
 
-import coffeshop.EventType;
+import coffeshop.order.event.EventType;
 
 import java.sql.Timestamp;
 

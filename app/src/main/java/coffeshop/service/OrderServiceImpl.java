@@ -1,7 +1,7 @@
 package coffeshop.service;
 
 import coffeshop.DbUtil;
-import coffeshop.EventType;
+import coffeshop.order.event.EventType;
 import coffeshop.order.Order;
 import coffeshop.order.event.OrderEvent;
 import coffeshop.order.exceptions.OrderIllegalStateException;
@@ -40,7 +40,6 @@ public class OrderServiceImpl implements OrderService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(events);
         return new Order(events.get(events.size() - 1).eventType, events);
     }
 }

@@ -25,7 +25,6 @@ public class OrderRegistered extends OrderEvent {
     @Override
     public int publish() throws OrderIllegalStateException, SQLException {
         int eventId = super.publish();
-
         try (Connection conn = DbUtil.getConnection()) {
             String sql = "INSERT INTO event_registered " +
                     "(event_id, client_id, delivery_date, " +
@@ -41,7 +40,6 @@ public class OrderRegistered extends OrderEvent {
         } catch (SQLException e) {
             throw e;
         }
-
         return eventId;
     }
 

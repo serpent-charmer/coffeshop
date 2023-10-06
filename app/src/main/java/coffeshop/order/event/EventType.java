@@ -1,14 +1,12 @@
-package coffeshop;
+package coffeshop.order.event;
 
 public enum EventType {
     Registered("R"), Processing("P"), Done("D"), Canceled("C"), Out("O");
 
-
     EventType(String type) {
         this.type = type;
     }
-
-    String type;
+    final String type;
 
     public static EventType get(String type) throws IllegalArgumentException {
         switch(type) {

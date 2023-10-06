@@ -1,7 +1,6 @@
 package coffeshop.order.event;
 
 import coffeshop.DbUtil;
-import coffeshop.EventType;
 import coffeshop.order.exceptions.OrderIllegalStateException;
 
 import java.sql.*;
@@ -23,10 +22,8 @@ public class OrderEvent implements OrderCheck {
     }
 
     public int publish() throws OrderIllegalStateException, SQLException {
-
         checkRegister();
         checkCanceledOrOut();
-
         int event_id = -1;
         try (Connection conn = DbUtil.getConnection()) {
             String sql = "INSERT INTO event " +
@@ -41,7 +38,6 @@ public class OrderEvent implements OrderCheck {
         } catch (SQLException e) {
             throw e;
         }
-
         try (Connection conn = DbUtil.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO order_base VALUES(?, ?)");
             stmt.setInt(1, orderId);
@@ -50,9 +46,7 @@ public class OrderEvent implements OrderCheck {
         } catch (SQLException e) {
             throw e;
         }
-
         return event_id;
-
     }
 
     public boolean check(String sql) {
