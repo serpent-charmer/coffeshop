@@ -14,7 +14,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class OrderTest {
 
@@ -80,7 +81,7 @@ class OrderTest {
     }
 
     @Test
-    void getInfo() {
+    void getInfo() throws OrderIllegalStateException {
         OrderEvent register = OrderEventBuilder.get(ORDER_ID_2,
                         0,
                         Timestamp.valueOf(LocalDateTime.now()))
@@ -106,6 +107,13 @@ class OrderTest {
         ORDER_SERVICE.publishEvent(out);
         order = ORDER_SERVICE.findOrder(ORDER_ID_2);
         assertEquals(EventType.Out, order.getStatus());
+    }
+
+    @Test
+    void getInfoExc() {
+        assertThrows(OrderIllegalStateException.class, () -> {
+            ORDER_SERVICE.findOrder(ORDER_ID_2);
+        });
     }
 
 }

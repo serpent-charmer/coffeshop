@@ -1,8 +1,8 @@
 package coffeshop.service;
 
 import coffeshop.DbUtil;
-import coffeshop.order.event.EventType;
 import coffeshop.order.Order;
+import coffeshop.order.event.EventType;
 import coffeshop.order.event.OrderEvent;
 import coffeshop.order.exceptions.OrderIllegalStateException;
 
@@ -23,7 +23,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order findOrder(int id) {
+    public Order findOrder(int id) throws OrderIllegalStateException {
         String sql = "select event_id, event_type, employee_id, event_date from order_base " +
                 "join event on order_base.event_id = event.id " +
                 "where order_base.id = ? order by event_date";
@@ -40,6 +40,9 @@ public class OrderServiceImpl implements OrderService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new Order(events.get(events.size() - 1).eventType, events);
+        if(events.size() > 0) {
+            return new Order(events.get(events.size() - 1).eventType, events);
+        }
+        throw new OrderIllegalStateException("Try registering an order first");
     }
 }
